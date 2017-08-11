@@ -1,5 +1,11 @@
 # zappa-django-utils
 
+[![PyPI](https://img.shields.io/pypi/v/zappa-django-utils.svg)](https://pypi.python.org/pypi/zappa-django-utils)
+[![Slack](https://img.shields.io/badge/chat-slack-ff69b4.svg)](https://slack.zappa.io/)
+[![Gun.io](https://img.shields.io/badge/made%20by-gun.io-blue.svg)](https://gun.io/)
+[![Patreon](https://img.shields.io/badge/support-patreon-brightgreen.svg)](https://patreon.com/zappa)
+
+
 Small utilities for making [Zappa](https://github.com/Miserlou/Zappa) deployments slightly easier for Django applications.
 
 This project was inspired by Edgar Roman's [Zappa Django Guide](https://github.com/edgarroman/zappa-django-guide).

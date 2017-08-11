@@ -1,3 +1,6 @@
+*~
+*.zip
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -20,7 +23,6 @@ lib64/
 parts/
 sdist/
 var/
-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -39,11 +41,12 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .coverage
+.coveragerc
 .coverage.*
 .cache
 nosetests.xml
 coverage.xml
-*.cover
+*,cover
 .hypothesis/
 
 # Translations
@@ -52,14 +55,6 @@ coverage.xml
 
 # Django stuff:
 *.log
-local_settings.py
-
-# Flask stuff:
-instance/
-.webassets-cache
-
-# Scrapy stuff:
-.scrapy
 
 # Sphinx documentation
 docs/_build/
@@ -67,35 +62,26 @@ docs/_build/
 # PyBuilder
 target/
 
-# Jupyter Notebook
-.ipynb_checkpoints
-
 # pyenv
 .python-version
 
-# celery beat schedule file
-celerybeat-schedule
+# PyCharm
+#  Project settings from the PyCharm IDE are stored in the .idea folder
+.idea/
 
-# SageMath parsed files
-*.sage.py
+# Apple OS X specific files are put into the .DS_Store file
+.DS_Store
 
-# dotenv
-.env
+# Vim stuff:
+*.swp
+*.swo
+*~
+tests/zappa_settings.json
+tests/example_template_outputs
 
-# virtualenv
-.venv
-venv/
-ENV/
+# Locally generated settings file
+zappa_settings.json
 
-# Spyder project settings
-.spyderproject
-.spyproject
-
-# Rope project settings
-.ropeproject
-
-# mkdocs documentation
-/site
-
-# mypy
-.mypy_cache/
+# Sublime Text stuff
+*.sublime-project
+*.sublime-workspace

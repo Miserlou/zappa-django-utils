@@ -15,4 +15,4 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Creating new admin user..'))
         User.objects.create_superuser('admin', 'admin@admin.com', pw)
         self.stdout.write(self.style.SUCCESS('Created user "admin", email: "admin@admin.com", password: ' + pw))
-        self.stdout.write(self.style.SUCCESS('Log in and change this password immediately!')
+        self.stdout.write(self.style.SUCCESS('Log in and change this password immediately!'))

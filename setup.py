@@ -2,7 +2,6 @@ import os
 import sys
 from setuptools import setup
 from io import open
-from zappa import __version__
 
 # Set external files
 try:
@@ -19,7 +18,7 @@ with open(os.path.join(os.path.dirname(__file__), 'test_requirements.txt')) as f
 
 setup(
     name='zappa-django-utils',
-    version=__version__,
+    version='0.0.1',
     packages=['zappa_django_utils'],
     install_requires=required,
     tests_require=test_required,

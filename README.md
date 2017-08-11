@@ -2,6 +2,8 @@
 
 Small utilities for making [Zappa](https://github.com/Miserlou/Zappa) deployments slightly easier for Django applications.
 
+This project was inspired by Edgar Roman's [Zappa Django Guide](https://github.com/edgarroman/zappa-django-guide).
+
 ## Installation
 
 Install via `pip`:

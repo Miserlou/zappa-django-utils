@@ -38,6 +38,15 @@ You'll probably need a default user to manage your application with, so you can 
 
 Now log in with the information that gets returned and immediately change the admin user's email and password.
 
+### Creating/Dropping a Postgres Schema
+
+You can create a Postgres schema with
+
+    $ zappa manage create_pg_schema
+
+and drop it with:
+
+    $ zappa manage drop_pg_schema
 
 ## License
 

@@ -30,7 +30,7 @@ Once you have your RDS set up, your VPC/Subnet/Security Groups set up, and your 
 
 Then you're ready to `python manage.py makemigrations` and `zappa update; zappa manage migrate`!
 
-### Creating a default admin user 
+### Creating a Default Admin User 
 
 You'll probably need a default user to manage your application with, so you can now:
 

@@ -40,7 +40,7 @@ Now log in with the information that gets returned and immediately change the ad
 
 ### Creating/Dropping a Postgres Schema
 
-You can create a Postgres schema with
+You can create a [Postgres schema](https://www.postgresql.org/docs/8.2/static/ddl-schemas.html) with:
 
     $ zappa manage create_pg_schema
 

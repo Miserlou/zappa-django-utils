@@ -24,7 +24,7 @@ Add to your installed apps:
 
 ### Using an S3-Backed Database Engine
 
-**ZDU** includes the ability to use a S3-synced SQLite database as a Django database engine.
+**ZDU** includes the ability to use `s3sqlite`, an [S3-synced SQLite database](https://blog.zappa.io/posts/s3sqlite-a-serverless-relational-database) as a Django database engine.
 
 This will cause problems for applications with high loads of concurrent writes, but it scales very well for high-read applications that don't have concurrent writes (like CMSes), and it's orders of magnitude cheaper than AWS RDS.
 

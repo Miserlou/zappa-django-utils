@@ -22,6 +22,24 @@ Add to your installed apps:
 
 ## Usage
 
+### Using an S3-Backed Database Engine
+
+**ZDU** includes the ability to use a S3-synced SQLite database as a Django database engine.
+
+To use this, in your Django project's `settings.py` file, add the following:
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'zappa_django_utils.db.backends.s3sqlite',
+        'NAME': 'sqlite.db',
+        'BUCKET': 'your-db-bucket'
+    }
+}
+```
+
+And.. that's it!
+
 ### Creating a Postgres Database
 
 Once you have your RDS set up, your VPC/Subnet/Security Groups set up, and your `DATABASES` setting set up, you can create the database with:

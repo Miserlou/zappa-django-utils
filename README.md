@@ -26,7 +26,7 @@ Add to your installed apps:
 
 Once you have your RDS set up, your VPC/Subnet/Security Groups set up, and your `DATABASES` setting set up, you can create the database with:
 
-    $ zappa manage create_pg_db
+    $ zappa manage <stage> create_pg_db
 
 Then you're ready to `python manage.py makemigrations` and `zappa update; zappa manage migrate`!
 
@@ -34,7 +34,7 @@ Then you're ready to `python manage.py makemigrations` and `zappa update; zappa 
 
 You'll probably need a default user to manage your application with, so you can now:
 
-    $ zappa manage create_admin_user
+    $ zappa manage <stage> create_admin_user
 
 Now log in with the information that gets returned and immediately change the admin user's email and password.
 

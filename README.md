@@ -30,7 +30,7 @@ Once you have your RDS set up, your VPC/Subnet/Security Groups set up, and your 
 
 Then you're ready to `python manage.py makemigrations` and `zappa update; zappa manage migrate`!
 
-### Creating a default admin user 
+### Creating a Default Admin User 
 
 You'll probably need a default user to manage your application with, so you can now:
 
@@ -38,6 +38,15 @@ You'll probably need a default user to manage your application with, so you can 
 
 Now log in with the information that gets returned and immediately change the admin user's email and password.
 
+### Creating/Dropping a Postgres Schema
+
+You can create a [Postgres schema](https://www.postgresql.org/docs/current/static/ddl-schemas.html) with:
+
+    $ zappa manage create_pg_schema
+
+and drop it with:
+
+    $ zappa manage drop_pg_schema
 
 ## License
 

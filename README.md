@@ -26,6 +26,8 @@ Add to your installed apps:
 
 **ZDU** includes the ability to use a S3-synced SQLite database as a Django database engine.
 
+This will cause problems for applications with high loads of concurrent writes, but it scales very well for high-read applications that don't have concurrent writes (like CMSes), and it's orders of magnitude cheaper than AWS RDS.
+
 To use this, in your Django project's `settings.py` file, add the following:
 
 ```python

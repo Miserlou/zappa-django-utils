@@ -26,7 +26,7 @@ Add to your installed apps:
 
 **ZDU** includes the ability to use `s3sqlite`, an [S3-synced SQLite database](https://blog.zappa.io/posts/s3sqlite-a-serverless-relational-database) as a Django database engine.
 
-This will cause problems for applications with high loads of concurrent writes, but it scales very well for high-read applications that don't have concurrent writes (like CMSes), and it's orders of magnitude cheaper than AWS RDS.
+This will cause problems for applications with concurrent writes**, but it scales very well for high-read applications that don't have concurrent writes (like CMSes), and it's orders of magnitude cheaper than AWS RDS.
 
 To use this, in your Django project's `settings.py` file, add the following:
 
@@ -41,6 +41,8 @@ DATABASES = {
 ```
 
 And.. that's it!
+
+** Concurrent Writes: Concurrent writes will often be lost and not show up in concurrent readers.
 
 ### Creating a Postgres Database
 

@@ -6,7 +6,7 @@ import boto3
 import botocore
 import logging
 import os
-import subprocess
+
 
 class DatabaseWrapper(DatabaseWrapper):
     """
@@ -20,13 +20,15 @@ class DatabaseWrapper(DatabaseWrapper):
         """
 
         signature_version = self.settings_dict.get("SIGNATURE_VERSION", "s3v4")
-        s3 = boto3.resource('s3',
-                config=botocore.client.Config(signature_version=signature_version))
+        s3 = boto3.resource(
+            's3',
+            config=botocore.client.Config(signature_version=signature_version),
+        )
 
         if '/tmp/' not in self.settings_dict['NAME']:
             try:
                 obj = s3.Object(self.settings_dict['BUCKET'], self.settings_dict['NAME'])
-                obj_bytes = obj.get()["Body"] # Will throw E on 404
+                obj_bytes = obj.get()["Body"]  # Will throw E on 404
 
                 with open('/tmp/' + self.settings_dict['NAME'], 'wb') as f:
                     f.write(obj_bytes.read())
@@ -49,7 +51,6 @@ class DatabaseWrapper(DatabaseWrapper):
 
         logging.debug("Loaded remote DB!")
 
-
     def __init__(self, *args, **kwargs):
         super(DatabaseWrapper, self).__init__(*args, **kwargs)
         self.load_remote_db()
@@ -61,8 +62,10 @@ class DatabaseWrapper(DatabaseWrapper):
         super(DatabaseWrapper, self).close(*args, **kwargs)
 
         signature_version = self.settings_dict.get("SIGNATURE_VERSION", "s3v4")
-        s3 = boto3.resource('s3',
-                config=botocore.client.Config(signature_version=signature_version))
+        s3 = boto3.resource(
+            's3',
+            config=botocore.client.Config(signature_version=signature_version),
+        )
 
         try:
             with open(self.settings_dict['NAME'], 'rb') as f:
@@ -73,8 +76,7 @@ class DatabaseWrapper(DatabaseWrapper):
 
                 s3_object = s3.Object(self.settings_dict['BUCKET'], self.settings_dict['REMOTE_NAME'])
                 result = s3_object.put('rb', Body=bytesIO)
-
         except Exception as e:
-            print(e)
+            logging.debug(e)
 
         logging.debug("Saved to remote DB!")

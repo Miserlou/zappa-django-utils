@@ -4,13 +4,14 @@ from io import BytesIO
 
 import boto3
 import botocore
+import hashlib
 import logging
 import os
 
 
 class DatabaseWrapper(DatabaseWrapper):
     """
-    Wraps the normal Django S3 DB engine in an S3 backer!
+    Wraps the normal Django SQLite DB engine in an S3 backer!
 
     """
 
@@ -27,14 +28,35 @@ class DatabaseWrapper(DatabaseWrapper):
 
         if '/tmp/' not in self.settings_dict['NAME']:
             try:
+                etag = ''
+                if os.path.isfile('/tmp/' + self.settings_dict['NAME']):
+                    m = hashlib.md5()
+                    with open('/tmp/' + self.settings_dict['NAME'], 'rb') as f:
+                        m.update(f.read())
+
+                    # In general the ETag is the md5 of the file, in some cases it's not,
+                    # and in that case we will just need to reload the file, I don't see any other way
+                    etag = m.hexdigest()
+
                 obj = s3.Object(self.settings_dict['BUCKET'], self.settings_dict['NAME'])
-                obj_bytes = obj.get()["Body"]  # Will throw E on 404
+                obj_bytes = obj.get(IfNoneMatch=etag)["Body"]  # Will throw E on 304 or 404
 
                 with open('/tmp/' + self.settings_dict['NAME'], 'wb') as f:
                     f.write(obj_bytes.read())
 
+                m = hashlib.md5()
+                with open('/tmp/' + self.settings_dict['NAME'], 'rb') as f:
+                    m.update(f.read())
+
+                self.db_hash = m.hexdigest()
+
             except botocore.exceptions.ClientError as e:
-                logging.debug("Couldn't load remote DB object.")
+                error_code = int(e.response['Error']['Code'])
+                if error_code == 304:
+                    logging.debug("ETag matches md5 of local copy, using local copy of DB!")
+                    self.db_hash = etag
+                else:
+                    logging.debug("Couldn't load remote DB object.")
             except Exception as e:
                 # Weird one
                 logging.debug(e)
@@ -57,7 +79,7 @@ class DatabaseWrapper(DatabaseWrapper):
 
     def close(self, *args, **kwargs):
         """
-        Engine closed, copy file to DB
+        Engine closed, copy file to DB if it has changed
         """
         super(DatabaseWrapper, self).close(*args, **kwargs)
 
@@ -70,6 +92,13 @@ class DatabaseWrapper(DatabaseWrapper):
         try:
             with open(self.settings_dict['NAME'], 'rb') as f:
                 fb = f.read()
+
+                m = hashlib.md5()
+                m.update(fb)
+                if self.db_hash == m.hexdigest():
+                    logging.debug("Database unchanged, not saving to remote DB!")
+                    return
+
                 bytesIO = BytesIO()
                 bytesIO.write(fb)
                 bytesIO.seek(0)

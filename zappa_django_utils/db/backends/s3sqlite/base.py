@@ -51,8 +51,7 @@ class DatabaseWrapper(DatabaseWrapper):
                 self.db_hash = m.hexdigest()
 
             except botocore.exceptions.ClientError as e:
-                error_code = int(e.response['Error']['Code'])
-                if error_code == 304:
+                if e.response['Error']['Code'] == "304":
                     logging.debug("ETag matches md5 of local copy, using local copy of DB!")
                     self.db_hash = etag
                 else:
@@ -75,6 +74,7 @@ class DatabaseWrapper(DatabaseWrapper):
 
     def __init__(self, *args, **kwargs):
         super(DatabaseWrapper, self).__init__(*args, **kwargs)
+        self.db_hash = None
         self.load_remote_db()
 
     def close(self, *args, **kwargs):

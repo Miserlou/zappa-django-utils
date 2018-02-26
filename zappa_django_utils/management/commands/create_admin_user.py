@@ -1,14 +1,16 @@
-from django.core.management.base import BaseCommand, CommandError
-from django.conf import settings
-from django.contrib.auth.models import User
+from django.core.management.base import BaseCommand
+from django.contrib.auth import get_user_model
 
 import random
 import string
+
 
 class Command(BaseCommand):
     help = 'Creates a default "admin" user'
 
     def handle(self, *args, **options):
+        # see: https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#referencing-the-user-model
+        User = get_user_model()
 
         pw = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
 

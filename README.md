@@ -28,11 +28,9 @@ Add to your installed apps:
 
 This will cause problems for applications with concurrent writes**, but it scales very well for high-read applications that don't have concurrent writes (like CMSes), and it's orders of magnitude cheaper than AWS RDS.
 
-To use this, in your Django project's `settings.py` file, add the following:
+** Concurrent writes will often be lost and not show up in concurrent readers. This is because the database is transferred between S3 storage and the Lambda instance for each request.
 
-** Concurrent Writes: Concurrent writes will often be lost and not show up in concurrent readers.
-
-#### Settings & Commands
+#### Django Settings & Commands
 
 ```python
 DATABASES = {

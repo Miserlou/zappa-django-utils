@@ -58,7 +58,16 @@ You'll probably need a default user to manage your application with, so you can 
 
     $ zappa manage <stage> create_admin_user
 
-Now log in with the information that gets returned and immediately change the admin user's email and password.
+Or you can pass some arguments:
+   
+    $ zappa manage <stage> create_admin_user one two three
+
+This will internally make this call:
+```python
+User.objects.create_superuser('one', 'two', 'three')
+```
+
+Now log in and immediately change the admin user's email and password.
 
 ### Creating/Dropping a Postgres Schema
 

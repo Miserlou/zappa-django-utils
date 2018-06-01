@@ -6,24 +6,38 @@ import string
 
 
 class Command(BaseCommand):
-    help = 'Creates a default "admin" user'
+    """
+    This command will create a default Django admin superuser.
+    """
+    help = 'Creates a Django admin superuser).'
 
     def add_arguments(self, parser):
         parser.add_argument('arguments', nargs='*')
 
     def handle(self, *args, **options):
-        # see: https://docs.djangoproject.com/en/1.11/topics/auth/customizing/#referencing-the-user-model
+        # Gets the model for the current Django project's user.
+        # This handles custom user models as well as Django's default.
         User = get_user_model()
 
-        self.stdout.write(self.style.SUCCESS('Creating new admin user...'))
+        self.stdout.write(self.style.SUCCESS('Creating a new admin superuser...'))
 
-        # if the command args are given -> try to create user with given args
+        # If the command args are given -> try to create user with given args
         if options['arguments']:
             try:
-                User.objects.create_superuser(*options['arguments'])
-                self.stdout.write(self.style.SUCCESS('Created user with given params'))
+                user = User.objects.create_superuser(*options['arguments'])
+                self.stdout.write(
+                    self.style.SUCCESS(
+                        'Created the admin superuser "{user}" with the given parameters.'.format(
+                            user=user,
+                        )
+                    )
+                )
             except Exception as e:
+                self.stdout.write('ERROR: Django returned an error when creating the admin superuser:')
                 self.stdout.write(str(e))
+                self.stdout.write('')
+                self.stdout.write('The arguments expected by the command are in this order:')
+                self.stdout.write(str(User.objects.create_superuser.__code__.co_varnames[1:-1]))
 
         # or create default admin user
         else:

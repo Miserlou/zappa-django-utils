@@ -9,7 +9,7 @@ class Command(BaseCommand):
     """
     This command will create a default Django admin superuser.
     """
-    help = 'Creates a Django admin superuser).'
+    help = 'Creates a Django admin superuser.'
 
     def add_arguments(self, parser):
         parser.add_argument('arguments', nargs='*')

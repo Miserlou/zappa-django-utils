@@ -5,10 +5,13 @@ from django.conf import settings
 
 
 class Command(BaseCommand):
-    help = 'Drogs a schema from the database'
+    """
+    Command to drop a schema from a PostgreSQL database.
+    """
+    help = 'Drops a schema from the PostgreSQL database.'
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS('Starting Schema deletion..'))
+        self.stdout.write(self.style.SUCCESS('Starting schema deletion...'))
 
         dbname = settings.DATABASES['default']['NAME']
         user = settings.DATABASES['default']['USER']
@@ -27,4 +30,4 @@ class Command(BaseCommand):
 
         con.close()
 
-        self.stdout.write(self.style.SUCCESS('All Done.'))
+        self.stdout.write(self.style.SUCCESS('All done.'))

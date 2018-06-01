@@ -30,6 +30,10 @@ This will cause problems for applications with concurrent writes**, but it scale
 
 To use this, in your Django project's `settings.py` file, add the following:
 
+** Concurrent Writes: Concurrent writes will often be lost and not show up in concurrent readers.
+
+#### Settings & Commands
+
 ```python
 DATABASES = {
     'default': {
@@ -40,9 +44,11 @@ DATABASES = {
 }
 ```
 
-And.. that's it!
+And... that's it! Since SQLite keeps the database in a single file, you will want to keep it as small and defragmented as possible. It is good to occasionally perform a database vacuum, especially after deleting or updating data. There's a command to vacuum your database:
 
-** Concurrent Writes: Concurrent writes will often be lost and not show up in concurrent readers.
+```bash
+zappa manage [instance] s3sqlite_vacuum
+```
 
 ### Creating a Postgres Database
 
@@ -63,6 +69,7 @@ Or you can pass some arguments:
     $ zappa manage <stage> create_admin_user one two three
 
 This will internally make this call:
+
 ```python
 User.objects.create_superuser('one', 'two', 'three')
 ```

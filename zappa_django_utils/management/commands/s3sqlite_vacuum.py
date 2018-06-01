@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from django.db import connection
+from django.db import connection, DatabaseError
 from django.conf import settings
 
 
@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         if settings.DATABASES['default']['ENGINE'] != "zappa_django_utils.db.backends.s3sqlite":
-            raise('')
+            raise DatabaseError('This command is only for the s3sqlite Django DB engine.')
         else:
             self.stdout.write(self.style.SUCCESS('Starting database VACUUM...'))
             cursor = connection.cursor()

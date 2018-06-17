@@ -18,7 +18,7 @@ Install via `pip`:
 
 Add to your installed apps:
 
-    INSTALLED_APPS += ('zappa_django_utils',)
+    INSTALLED_APPS += ['zappa_django_utils']
 
 ## Usage
 

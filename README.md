@@ -54,7 +54,7 @@ Once you have your RDS set up, your VPC/Subnet/Security Groups set up, and your 
 
     $ zappa manage <stage> create_pg_db
 
-Then you're ready to `python manage.py makemigrations` and `zappa update; zappa manage migrate`!
+Then you're ready to `python manage.py makemigrations` and `zappa update; zappa manage <stage> migrate`!
 
 ### Creating a Default Admin User 
 

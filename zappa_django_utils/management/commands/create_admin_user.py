@@ -42,6 +42,6 @@ class Command(BaseCommand):
         # or create default admin user
         else:
             pw = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
-            User.objects.create_superuser('admin', 'admin@admin.com', pw)
+            User.objects.create_superuser(username='admin', email='admin@admin.com', password=pw)
             self.stdout.write(self.style.SUCCESS('Created user "admin", email: "admin@admin.com", password: ' + pw))
             self.stdout.write(self.style.SUCCESS('Log in and change this password immediately!'))

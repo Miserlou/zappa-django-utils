@@ -21,17 +21,18 @@ class DatabaseWrapper(DatabaseWrapper):
         """
 
         signature_version = self.settings_dict.get("SIGNATURE_VERSION", "s3v4")
+        tmp_dir = self.settings_dict.get("TMP_DIR", "/tmp/")
         s3 = boto3.resource(
             's3',
             config=botocore.client.Config(signature_version=signature_version),
         )
 
-        if '/tmp/' not in self.settings_dict['NAME']:
+        if tmp_dir not in self.settings_dict['NAME']:
             try:
                 etag = ''
-                if os.path.isfile('/tmp/' + self.settings_dict['NAME']):
+                if os.path.isfile(tmp_dir + self.settings_dict['NAME']):
                     m = hashlib.md5()
-                    with open('/tmp/' + self.settings_dict['NAME'], 'rb') as f:
+                    with open(tmp_dir + self.settings_dict['NAME'], 'rb') as f:
                         m.update(f.read())
 
                     # In general the ETag is the md5 of the file, in some cases it's not,
@@ -41,11 +42,11 @@ class DatabaseWrapper(DatabaseWrapper):
                 obj = s3.Object(self.settings_dict['BUCKET'], self.settings_dict['NAME'])
                 obj_bytes = obj.get(IfNoneMatch=etag)["Body"]  # Will throw E on 304 or 404
 
-                with open('/tmp/' + self.settings_dict['NAME'], 'wb') as f:
+                with open(tmp_dir + self.settings_dict['NAME'], 'wb') as f:
                     f.write(obj_bytes.read())
 
                 m = hashlib.md5()
-                with open('/tmp/' + self.settings_dict['NAME'], 'rb') as f:
+                with open(tmp_dir + self.settings_dict['NAME'], 'rb') as f:
                     m.update(f.read())
 
                 self.db_hash = m.hexdigest()
@@ -62,9 +63,9 @@ class DatabaseWrapper(DatabaseWrapper):
 
         # SQLite DatabaseWrapper will treat our tmp as normal now
         # Check because Django likes to call this function a lot more than it should
-        if '/tmp/' not in self.settings_dict['NAME']:
+        if tmp_dir not in self.settings_dict['NAME']:
             self.settings_dict['REMOTE_NAME'] = self.settings_dict['NAME']
-            self.settings_dict['NAME'] = '/tmp/' + self.settings_dict['NAME']
+            self.settings_dict['NAME'] = tmp_dir + self.settings_dict['NAME']
 
         # Make sure it exists if it doesn't yet
         if not os.path.isfile(self.settings_dict['NAME']):

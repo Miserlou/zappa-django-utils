@@ -16,7 +16,7 @@ with open(os.path.join(os.path.dirname(__file__), 'test_requirements.txt')) as f
 
 setup(
     name='zappa-django-utils',
-    version='0.4.0',
+    version='0.4.1',
     packages=['zappa_django_utils'],
     install_requires=required,
     tests_require=test_required,

@@ -1,10 +1,17 @@
-# zappa-django-utils
+# zappa-django-utils 0.4.1: final release!
 
 [![PyPI](https://img.shields.io/pypi/v/zappa-django-utils.svg)](https://pypi.python.org/pypi/zappa-django-utils)
 [![Slack](https://img.shields.io/badge/chat-slack-ff69b4.svg)](https://slack.zappa.io/)
 [![Gun.io](https://img.shields.io/badge/made%20by-gun.io-blue.svg)](https://gun.io/)
 [![Patreon](https://img.shields.io/badge/support-patreon-brightgreen.svg)](https://patreon.com/zappa)
 
+# Final Release
+
+Thanks to everyone who has supported this package of Zappa utilities for Django! Many of these utilities have become deprecated as new features have been added to AWS, or split into their own projects such a `django-s3-sqlite`: https://github.com/flipperpa/django-s3-sqlite
+
+We're making one final release and will not be accepting further issues or pull requests.
+
+# Description
 
 Small utilities for making [Zappa](https://github.com/Miserlou/Zappa) deployments slightly easier for Django applications.
 
@@ -22,31 +29,11 @@ Add to your installed apps:
 
 ## Usage
 
-### Using an S3-Backed Database Engine
+### Using an S3-Backed Database Engine - DEPRECATED!
 
-**ZDU** includes the ability to use `s3sqlite`, an [S3-synced SQLite database](https://blog.zappa.io/posts/s3sqlite-a-serverless-relational-database) as a Django database engine.
+Use `django-s3-sqlite` instead, as it has an updated SQLite driver compatible with current versions of Django:
 
-This will cause problems for applications with concurrent writes**, but it scales very well for high-read applications that don't have concurrent writes (like CMSes), and it's orders of magnitude cheaper than AWS RDS.
-
-** Concurrent writes will often be lost and not show up in concurrent readers. This is because the database is transferred between S3 storage and the Lambda instance for each request.
-
-#### Django Settings & Commands
-
-```python
-DATABASES = {
-    'default': {
-        'ENGINE': 'zappa_django_utils.db.backends.s3sqlite',
-        'NAME': 'sqlite.db',
-        'BUCKET': 'your-db-bucket'
-    }
-}
-```
-
-And... that's it! Since SQLite keeps the database in a single file, you will want to keep it as small and defragmented as possible. It is good to occasionally perform a database vacuum, especially after deleting or updating data. There's a command to vacuum your database:
-
-```bash
-zappa manage [instance] s3sqlite_vacuum
-```
+https://github.com/flipperpa/django-s3-sqlite
 
 ### Creating a Postgres Database
 

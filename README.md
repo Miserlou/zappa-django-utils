@@ -1,4 +1,4 @@
-# zappa-django-utils 0.4.1: final release!
+# zappa-django-utils 0.4.2: final release!
 
 [![PyPI](https://img.shields.io/pypi/v/zappa-django-utils.svg)](https://pypi.python.org/pypi/zappa-django-utils)
 [![Slack](https://img.shields.io/badge/chat-slack-ff69b4.svg)](https://slack.zappa.io/)
@@ -20,7 +20,7 @@ This project was inspired by Edgar Roman's [Zappa Django Guide](https://github.c
 ## Installation
 
 Install via `pip`:
-    
+
     $ pip install zappa-django-utils
 
 Add to your installed apps:
@@ -43,14 +43,14 @@ Once you have your RDS set up, your VPC/Subnet/Security Groups set up, and your 
 
 Then you're ready to `python manage.py makemigrations` and `zappa update; zappa manage <stage> migrate`!
 
-### Creating a Default Admin User 
+### Creating a Default Admin User
 
 You'll probably need a default user to manage your application with, so you can now:
 
     $ zappa manage <stage> create_admin_user
 
 Or you can pass some arguments:
-   
+
     $ zappa manage <stage> create_admin_user one two three
 
 This will internally make this call:
@@ -71,6 +71,18 @@ and drop it with:
 
     $ zappa manage drop_pg_schema
 
+### Creating a MySQL Database
+
+Once you have your RDS set up, your VPC/Subnet/Security Groups set up, and your `DATABASES` setting set up, you can create the database with:
+
+    $ zappa manage <stage> create_mysql_db
+
+Then you're ready to `python manage.py makemigrations` and `zappa update; zappa manage <stage> migrate`!
+
+### Dropping a MySQL Database
+
+    $ zappa manage <stage> drop_mysql_db
+
 ## License
 
-(c) 2017, Rich Jones, MIT License
+(c) 2020, Rich Jones, MIT License

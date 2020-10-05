@@ -4,23 +4,23 @@ from django.conf import settings
 import MySQLdb as db
 
 class Command(BaseCommand):
-    help = "Create a database from settings file prior to migrations."
+    help = "Drop a database from settings file prior to migrations."
 
     def add_arguments(self, parser):
         parser.add_argument(
             '--user',
             dest='user',
-            help='Username to be used to create database',
+            help='Username of the database to be dropped.',
         )
         parser.add_argument(
             '--password',
             dest='password',
-            help='Password for the mysql user.',
+            help='Password of the database to be dropped.',
         )
         parser.add_argument(
             '--db-name',
             dest='db_name',
-            help='Name of the database if it is different from the one defined in settings',
+            help='Name of the database to drop, if it is different from the one defined in settings.',
         )
 
     def handle(self, *args, **options):
